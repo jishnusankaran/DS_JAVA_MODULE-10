@@ -1,21 +1,22 @@
-# Ex21 Count the Number of Nodes in the Left Subtree of a Binary Tree
+# Ex22 Searching for a Book ID in a Binary Search Tree (BST)
 ## AIM:
-To design and implement a Python program that constructs a binary tree from given level order input and counts the number of nodes present in the left subtree of the root node
-
+To design and implement a Python program that constructs a Binary Search Tree (BST) using given Book IDs and checks whether a specific Book ID exists in the BST.
 ## Algorithm
 1. Start the program.
-2. Define a Node class to represent each node of the binary tree.
-3. Build the binary tree from a given level order array.
-4. Recursively count the number of nodes in the left subtree of the root.
-5. Display the total count.
-6. End the program. 
-  
+2. Define a Node class with data, left, and right references.
+3. Create an insert() function to insert nodes into the BST following BST rules.
+4. Create a search() function to find a Book ID in the BST.
+5. Build the BST using given Book IDs.
+6. Search for a specific Book ID entered by the user.
+7. Display whether the Book ID exists in the tree.
+8. End the program.
+   
 
 ## Program:
 ```
 /*
-Program to construct a binary tree from given level order input 
-and count the number of nodes in the left subtree of the root node.
+Program to construct a Binary Search Tree (BST) using given Book IDs 
+and check whether a specific Book ID exists in the BST.
 Developed by: JISHNUPRIYAN S
 RegisterNumber: 212223240061
 */
@@ -30,46 +31,57 @@ class Node {
     }
 }
 
-public class LeftSubtreeCount {
-    public static Node insertLevelOrder(int[] arr, int i) {
-        if (i < arr.length) {
-            Node root = new Node(arr[i]);
-            root.left = insertLevelOrder(arr, 2 * i + 1);
-            root.right = insertLevelOrder(arr, 2 * i + 2);
-            return root;
-        }
-        return null;
+public class BookSearchBST {
+    public static Node insert(Node root, int data) {
+        if (root == null)
+            return new Node(data);
+        if (data < root.data)
+            root.left = insert(root.left, data);
+        else if (data > root.data)
+            root.right = insert(root.right, data);
+        return root;
     }
 
-    public static int countNodes(Node root) {
+    public static boolean search(Node root, int key) {
         if (root == null)
-            return 0;
-        return 1 + countNodes(root.left) + countNodes(root.right);
+            return false;
+        if (root.data == key)
+            return true;
+        if (key < root.data)
+            return search(root.left, key);
+        else
+            return search(root.right, key);
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter number of nodes: ");
+        Node root = null;
+        System.out.print("Enter number of Book IDs: ");
         int n = sc.nextInt();
-        int[] arr = new int[n];
-        System.out.println("Enter level order elements:");
-        for (int i = 0; i < n; i++)
-            arr[i] = sc.nextInt();
+        System.out.println("Enter Book IDs:");
+        for (int i = 0; i < n; i++) {
+            int id = sc.nextInt();
+            root = insert(root, id);
+        }
 
-        Node root = insertLevelOrder(arr, 0);
-        int leftCount = countNodes(root.left);
-        System.out.println("Number of nodes in left subtree: " + leftCount);
+        System.out.print("Enter Book ID to search: ");
+        int key = sc.nextInt();
+
+        if (search(root, key))
+            System.out.println("Book ID found in the library system.");
+        else
+            System.out.println("Book ID not found in the library system.");
         sc.close();
     }
-} 
+}  
 */
 ```
 
 ## Output:
+<img width="580" height="154" alt="image" src="https://github.com/user-attachments/assets/db2bb188-7daf-4b6c-b0bf-c4afeecfb698" />
 
-<img width="383" height="114" alt="image" src="https://github.com/user-attachments/assets/0e038ac9-1a92-47af-a4ea-8775b3cceeda" />
 
 
 ## Result:
 The program has been successfully implemented and executed.
-It correctly constructs the binary tree from level order input and counts the number of nodes in the left subtree of the root node.
+It constructs a Binary Search Tree from the given Book IDs and accurately determines whether a queried Book ID exists in the library system.
