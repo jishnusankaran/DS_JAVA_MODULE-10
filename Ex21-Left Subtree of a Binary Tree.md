@@ -1,25 +1,28 @@
-# Ex22 Searching for a Book ID in a Binary Search Tree (BST)
+# Ex21 Count the Number of Nodes in the Left Subtree of a Binary Tree
 ## AIM:
-To design and implement a Python program that constructs a Binary Search Tree (BST) using given Book IDs and checks whether a specific Book ID exists in the BST.
+To design and implement a java program that constructs a binary tree from given level order input and counts the number of nodes present in the left subtree of the root node
+
 ## Algorithm
 1. Start the program.
-2. Define a Node class with data, left, and right references.
-3. Create an insert() function to insert nodes into the BST following BST rules.
-4. Create a search() function to find a Book ID in the BST.
-5. Build the BST using given Book IDs.
-6. Search for a specific Book ID entered by the user.
-7. Display whether the Book ID exists in the tree.
-8. End the program.
-   
+2. Read integer.
+3. Create an array of size n.
+4. Read n integers and store them in array.
+5. Building the Tree (Level-Order).
+6. Counting Left Subtree Nodes.
+7. Print the result.
+8. Stop the program.
+  
 
 ## Program:
 ```
 /*
-Program to construct a Binary Search Tree (BST) using given Book IDs 
-and check whether a specific Book ID exists in the BST.
-Developed by: JISHNUPRIYAN S
+Program to constructs a binary tree from given level order input and counts the number of nodes 
+Developed by: Jishnupriyan S
 RegisterNumber: 212223240061
 */
+```
+```
+
 import java.util.*;
 
 class Node {
@@ -27,61 +30,61 @@ class Node {
     Node left, right;
     Node(int data) {
         this.data = data;
-        left = right = null;
+        this.left = this.right = null;
     }
 }
 
-public class BookSearchBST {
-    public static Node insert(Node root, int data) {
-        if (root == null)
-            return new Node(data);
-        if (data < root.data)
-            root.left = insert(root.left, data);
-        else if (data > root.data)
-            root.right = insert(root.right, data);
+public class Main {
+
+    // Build binary tree in level-order fashion
+    static Node buildTree(int[] arr) {
+        if (arr.length == 0) return null;
+        Node root = new Node(arr[0]);
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        int i = 1;
+
+        while (!q.isEmpty() && i < arr.length) {
+            Node current = q.poll();
+            if (i < arr.length) {
+                current.left = new Node(arr[i++]);
+                q.add(current.left);
+            }
+            if (i < arr.length) {
+                current.right = new Node(arr[i++]);
+                q.add(current.right);
+            }
+        }
+
         return root;
     }
 
-    public static boolean search(Node root, int key) {
-        if (root == null)
-            return false;
-        if (root.data == key)
-            return true;
-        if (key < root.data)
-            return search(root.left, key);
-        else
-            return search(root.right, key);
+    static int countNodes(Node root) {
+        if (root == null) return 0;
+        return 1 + countNodes(root.left) + countNodes(root.right);
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Node root = null;
-        System.out.print("Enter number of Book IDs: ");
         int n = sc.nextInt();
-        System.out.println("Enter Book IDs:");
-        for (int i = 0; i < n; i++) {
-            int id = sc.nextInt();
-            root = insert(root, id);
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        Node root = buildTree(arr);
+
+        if (root.left == null) {
+            System.out.println(0);
+        } else {
+            System.out.println(countNodes(root.left));
         }
-
-        System.out.print("Enter Book ID to search: ");
-        int key = sc.nextInt();
-
-        if (search(root, key))
-            System.out.println("Book ID found in the library system.");
-        else
-            System.out.println("Book ID not found in the library system.");
-        sc.close();
     }
-}  
-*/
+}
 ```
 
 ## Output:
-<img width="580" height="154" alt="image" src="https://github.com/user-attachments/assets/db2bb188-7daf-4b6c-b0bf-c4afeecfb698" />
 
+<img width="458" height="307" alt="image" src="https://github.com/user-attachments/assets/6e0a9e39-45f1-4e1a-b7d8-e44b0261164e" />
 
 
 ## Result:
 The program has been successfully implemented and executed.
-It constructs a Binary Search Tree from the given Book IDs and accurately determines whether a queried Book ID exists in the library system.
+It correctly constructs the binary tree from level order input and counts the number of nodes in the left subtree of the root node.
